@@ -33,15 +33,17 @@ Node* eraseNode(Node* node, int key, bool found) {
     }
 
     if (node->left == nullptr) {
-        node = rotateLeft(node);
-        node->left = eraseNode(node->left, key, true);
-        return node;
+        Node* child = node->right;
+        emit("erase_replace", "Reemplazando " + to_string(key) + " por " + to_string(child->key), node->id);
+        delete node;
+        return child;
     }
 
     if (node->right == nullptr) {
-        node = rotateRight(node);
-        node->right = eraseNode(node->right, key, true);
-        return node;
+        Node* child = node->left;
+        emit("erase_replace", "Reemplazando " + to_string(key) + " por " + to_string(child->key), node->id);
+        delete node;
+        return child;
     }
 
     if (node->left->priority > node->right->priority) {
