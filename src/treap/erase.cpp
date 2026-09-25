@@ -3,22 +3,36 @@
 using namespace std;
 
 namespace {
-Node* eraseNode(Node* node, int key, bool found) {
+void rotateRightAt(Node*& node) {
+    int old_root_key = node->key;
+    emit("rotate_right_before", "Girando derecha en nodo " + to_string(old_root_key), node->id);
+    node = rotateRight(node);
+    emit("rotate_right_after", "Giro completo: " + to_string(node->key) + " ahora es padre", node->id);
+}
+
+void rotateLeftAt(Node*& node) {
+    int old_root_key = node->key;
+    emit("rotate_left_before", "Girando izquierda en nodo " + to_string(old_root_key), node->id);
+    node = rotateLeft(node);
+    emit("rotate_left_after", "Giro completo: " + to_string(node->key) + " ahora es padre", node->id);
+}
+
+void eraseAt(Node*& node, int key, bool found) {
     if (node == nullptr) {
         emit("erase_not_found", "No se pudo eliminar: " + to_string(key) + " no existe", -1);
-        return nullptr;
+        return;
     }
 
     if (key < node->key) {
         emit("erase_compare", "Buscando " + to_string(key) + " a la izquierda de " + to_string(node->key), node->id);
-        node->left = eraseNode(node->left, key, found);
-        return node;
+        eraseAt(node->left, key, found);
+        return;
     }
 
     if (key > node->key) {
         emit("erase_compare", "Buscando " + to_string(key) + " a la derecha de " + to_string(node->key), node->id);
-        node->right = eraseNode(node->right, key, found);
-        return node;
+        eraseAt(node->right, key, found);
+        return;
     }
 
     if (!found) {
@@ -26,38 +40,36 @@ Node* eraseNode(Node* node, int key, bool found) {
     }
 
     if (node->left == nullptr && node->right == nullptr) {
-        int id = node->id;
-        emit("erase_leaf", "Eliminando la hoja " + to_string(key), id);
-        delete node;
-        return nullptr;
+        Node* removed = node;
+        emit("erase_leaf_before", "Eliminando la hoja " + to_string(key), removed->id);
+        node = nullptr;
+        delete removed;
+        emit("erase_leaf_after", "Hoja " + to_string(key) + " eliminada", -1);
+        return;
     }
 
-    if (node->left == nullptr) {
-        Node* child = node->right;
-        emit("erase_replace", "Reemplazando " + to_string(key) + " por " + to_string(child->key), node->id);
-        delete node;
-        return child;
-    }
-
-    if (node->right == nullptr) {
-        Node* child = node->left;
-        emit("erase_replace", "Reemplazando " + to_string(key) + " por " + to_string(child->key), node->id);
-        delete node;
-        return child;
+    if (node->left == nullptr || node->right == nullptr) {
+        Node* removed = node;
+        Node* child = node->left ? node->left : node->right;
+        emit("erase_replace_before", "Reemplazando " + to_string(key) + " por " + to_string(child->key), removed->id);
+        node = child;
+        delete removed;
+        emit("erase_replace_after", "Reemplazo completo: " + to_string(child->key) + " ocupa su lugar", child->id);
+        return;
     }
 
     if (node->left->priority > node->right->priority) {
-        node = rotateRight(node);
-        node->right = eraseNode(node->right, key, true);
+        rotateRightAt(node);
+        eraseAt(node->right, key, true);
     } else {
-        node = rotateLeft(node);
-        node->left = eraseNode(node->left, key, true);
+        rotateLeftAt(node);
+        eraseAt(node->left, key, true);
     }
-
-    return node;
 }
 }
 
 Node* erase(Node* node, int key) {
-    return eraseNode(node, key, false);
+    root = node;
+    eraseAt(root, key, false);
+    return root;
 }
