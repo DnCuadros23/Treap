@@ -61,3 +61,7 @@ void emit(const string& event, const string& note, int highlighted_id) {
     trace_file << json_line << "\n";
     trace_file.flush();
 }
+
+void resetTrace() {
+    ofstream("trace.jsonl", ios::trunc).close();
+}

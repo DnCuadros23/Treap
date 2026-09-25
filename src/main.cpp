@@ -3,6 +3,7 @@
 
 using namespace std;
 int main() {
+    resetTrace();
     cout << " Treap: Inserción y Búsqueda " << endl;
     cout << "Generando trace.jsonl para animación Manim..." << endl;
 
