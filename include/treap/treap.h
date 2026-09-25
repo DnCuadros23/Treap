@@ -26,6 +26,7 @@ using namespace std;
 // note: explicación en texto de lo que está pasando
 // highlighted_id: qué nodo resaltar en la animación (o -1 si ninguno)
 void emit(const string& event, const string& note, int highlighted_id = -1);
+void resetTrace();
 
 // Toma una "foto" del árbol actual en formato JSON
 // Esto es lo que Manim va a leer para saber cómo se ve el árbol en cada momento
