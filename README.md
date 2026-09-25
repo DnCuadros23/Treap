@@ -196,7 +196,7 @@ Buscando 20
 | Persona      | Responsabilidad | Archivos |
 |--------------|-----------------|----------|
 | **Denilson** | Infraestructura + Inserción | treap.h, treap_core.cpp, insert.cpp, main.cpp ✅ |
-| **B**        | Eliminación | erase.cpp |
+| **Alexander**        | Eliminación | erase.cpp |
 | **C**        | Manim + Video + Informe PDF | render_treap.py, video.mp4, informe.pdf |
 
 ---
