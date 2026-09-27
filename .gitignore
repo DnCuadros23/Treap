@@ -1,0 +1,14 @@
+# Binarios y artefactos de compilación
+treap_demo
+build/
+
+# Salida del programa (se regenera con ./treap_demo)
+trace.jsonl
+
+# Manim
+media/
+__pycache__/
+*.pyc
+
+# Sistema
+.DS_Store

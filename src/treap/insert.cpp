@@ -19,7 +19,9 @@ Node* rotateLeft(Node* x) {
 
 namespace {
 mt19937 generator(20260925u);
-uniform_int_distribution<int> priority_distribution(1, 1000000000);
+// Rango corto a propósito: la prioridad se dibuja sobre el nodo en la animación
+// y 10 dígitos no caben. Sigue siendo aleatoria, que es lo que equilibra el treap.
+uniform_int_distribution<int> priority_distribution(1, 999);
 
 void rotateRightAt(Node*& node) {
     int old_root_key = node->key;

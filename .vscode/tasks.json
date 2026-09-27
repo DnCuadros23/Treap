@@ -1,0 +1,38 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "Compilar Treap",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-fcolor-diagnostics",
+                "-fansi-escape-codes",
+                "-g",
+                "-std=c++17",
+                "-Wall",
+                "-Wextra",
+                "-Wpedantic",
+                "-Iinclude",
+                "src/main.cpp",
+                "src/treap/treap_core.cpp",
+                "src/treap/insert.cpp",
+                "src/treap/search.cpp",
+                "src/treap/erase.cpp",
+                "-o",
+                "treap_demo"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Compila el proyecto completo desde la raíz del repo."
+        }
+    ],
+    "version": "2.0.0"
+}
